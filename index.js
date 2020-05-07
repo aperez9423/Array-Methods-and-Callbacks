@@ -87,23 +87,62 @@ console.log(getWinnersByYear(getWinners,getYears));
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(data, teamInitials) {
-    /* code here */
-
+function getCountryWins (data, initials) {
+    let initialValue = 0
+    const wins = data.reduce ((numOfWins, match) => {
+        const homeTeamGoals = match['Home Team Goals'];
+        const awayTeamGoals = match['Away Team Goals'];
+        if (homeTeamGoals > awayTeamGoals) { 
+            if (match['Home Team Initials'] === initials) {
+                return numOfWins + 1;
+            } else {
+                return numOfWins;
+            }
+        }else if (awayTeamGoals > homeTeamGoals){
+            if (match['Away Team Intials'] === initials) {
+                return numOfWins + 1;
+            }else {
+                return numOfWins;
+            }
+        }
+            return numOfWins;
+    }, initialValue);
+        return wins;
 };
 
-getCountryWins();
+console.log(getCountryWins(fifaData, "ITA"));
 
 /* Task 8: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
-
-function getAverageGoals(/* code here */) {
-
-    /* code here */
-
+function getAverageGoals(data) {
+    let initialValue = 0;
+    const homeTeamAverage = data.reduce((total, num, index, array) => {
+        const amount = num['Home Team Goals'];
+        total += amount;
+        if(index === array.length-1) { 
+          return total/array.length;
+        }else { 
+          return total;
+        }
+      }, initialValue);
+      return "Home team average is " + homeTeamAverage; 
 };
 
-getAverageGoals();
+function getAverageGoals2(data) {
+    let initialValue = 0;
+    const awayTeamAverage = data.reduce((total, num, index, array) => {
+        const amount = num['Away Team Goals'];
+        total += amount;
+        if(index === array.length-1) { 
+          return total/array.length;
+        }else { 
+          return total;
+        }
+      }, initialValue);
+      return "Away team average is " + awayTeamAverage;
+};
 
+console.log(getAverageGoals(fifaData));
+console.log(getAverageGoals2(fifaData));
 
 /// STRETCH 🥅 //
 
